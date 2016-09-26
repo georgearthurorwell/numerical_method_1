@@ -50,9 +50,17 @@ int main()
         y[i] = myvector(N, coords);
     }
 
-    //END DEFINE
-    cout.setf(ios::showpos);
+    myvector f = myvector();
+    for(int j = 0; j < N; ++j)
+    {
+        coords[j] = c*cos(M_PI*i*j/N); // DEFINE f
+    }
+    y[i] = myvector(N, coords);
 
+    long double d[N];
+    //END DEFINE
+
+    cout.setf(ios::showpos);
     for(int i = 0; i < N; ++i)
     {
         for(int j = 0; j < N; ++j)
@@ -61,6 +69,8 @@ int main()
         }
         cout << endl;
     }
+
+    
     cout << "helloy blya";
 }
 
