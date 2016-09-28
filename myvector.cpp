@@ -84,6 +84,20 @@ myvector operator+(myvector a, myvector b)
 	}
 }
 
+myvector operator+=(myvector a, myvector b)
+{
+	if (a.length == b.length)
+	{
+		for (int i = 0; i < a.length; ++i)
+			a.m[i] += b.m[i];
+		return a;
+	}
+	else
+	{
+		cout << "error";
+	}
+}
+
 myvector operator*(long double d, myvector a)
 {
 	long double *m = new long double[a.length];

@@ -6,6 +6,8 @@
 
 using namespace std;
 
+const long double eps = 0.000000000001;
+
 long double scal(myvector a, myvector b, long double h)
 {
     long double s = 0;
@@ -14,7 +16,6 @@ long double scal(myvector a, myvector b, long double h)
         for(int i = 1; i < a.length-1; ++i)
         {
             s += a.m[i] * b.m[i]*h;
-            //cout << s << endl;
         }
         s += 0.5 * h * (a.m[0] * b.m[0] + a.m[a.length-1] * b.m[a.length-1]);
         return s;
@@ -28,15 +29,15 @@ long double scal(myvector a, myvector b, long double h)
 
 int main()
 {
-    // DEFINE N, h, y_n
-    int N = 11;
+    // DEFINE N, h, y_n, f
+    int N = 101;
     long double l = 1.0;
     long double h = 1.0 / (N - 1);
 
     long double c[N] = {};
     for(int i = 0; i < N; ++i)
     {
-        c[i] = 1.0; //DEFINE c_i 
+        c[i] = pow(2.0,0.5); //DEFINE c_i
     }
 
     myvector * y = new myvector[N];
@@ -45,33 +46,62 @@ int main()
     {
         for(int j = 0; j < N; ++j)
         {
-            coords[j] = c[i]*cos(M_PI*i*j/N); // DEFINE y_i
+            coords[j] = c[i]*sin(M_PI*i*j*h); // DEFINE y_i
         }
         y[i] = myvector(N, coords);
     }
 
     myvector f = myvector();
-    for(int j = 0; j < N; ++j)
+    for(int i = 0; i < N; ++i)
     {
-        coords[j] = c*cos(M_PI*i*j/N); // DEFINE f
+        //coords[i] = cos(2*M_PI*i*h) - 1; // DEFINE f
+        coords[i] = sin(M_PI*i*h);
     }
-    y[i] = myvector(N, coords);
+    f = myvector(N, coords);
+
+    //CHECK CORRECT f
+    if(abs(f.m[0]) > eps || abs(f.m[N-1]) > eps)
+    {
+        cout << "ERROR. f does not satisfy border conditions" << f.m[0] << ' ' << f.m[N-1] << endl;
+        return -1;
+    }
+
+    //END DEFINE
 
     long double d[N];
-    //END DEFINE
+    for(int i = 0; i < N; ++i)
+    {
+        d[i] = scal(f,y[i]);
+        cout << d[i] << ' ';
+    }
 
     cout.setf(ios::showpos);
     for(int i = 0; i < N; ++i)
     {
         for(int j = 0; j < N; ++j)
         {
-            cout << fixed << setprecision(3) << scal(y[i],y[j]) << " ";
+            cout << fixed << setprecision(3) << scal(y[i],y[j], h) << " ";
         }
         cout << endl;
     }
 
-    
-    cout << "helloy blya";
+    for(int i = 0; i < N; ++i)
+    {
+        coords[i] = 0;
+    }
+    myvector f_1 = myvector(N, coords);
+    for(int i = 0; i < N; ++i)
+    {
+        y[i] = d[i] * y[i];
+        f_1 += y[i];
+    }
+
+    ofstream fout("output.txt");
+    for(int i = 0; i < N; ++i)
+    {
+        fout << h*i << ' ' << f_1.m[i] << endl;
+    }
+    fout.close();
 }
 
 // int main()
