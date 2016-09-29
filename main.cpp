@@ -31,17 +31,17 @@ int main()
 {
     // DEFINE N, h, y_n, f
     int N = 101;
-    long double l = 1.0;
+    //long double l = 1.0000000000000000;
     long double h = 1.0 / (N - 1);
 
-    long double c[N] = {};
+    long double *c = new long double[N];
     for(int i = 0; i < N; ++i)
     {
         c[i] = pow(2.0,0.5); //DEFINE c_i
     }
 
     myvector * y = new myvector[N];
-    long double coords[N] = {};
+    long double *coords = new long double[N];
     for(int i = 0; i < N; ++i)
     {
         for(int j = 0; j < N; ++j)
@@ -68,22 +68,37 @@ int main()
 
     //END DEFINE
 
-    long double d[N];
+    long double *d = new long double[N];
     for(int i = 0; i < N; ++i)
     {
         d[i] = scal(f,y[i],h);
-        cout << d[i] << ' ';
+        //cout << d[i] << ' ';
     }
-
-    cout.setf(ios::showpos);
+    
+    long double delta = 0;
+    int a,b;
+    ofstream fout1("delta.txt");
+    fout1.setf(ios::showpos);
     for(int i = 0; i < N; ++i)
     {
         for(int j = 0; j < N; ++j)
         {
-            cout << fixed << setprecision(3) << scal(y[i],y[j], h) << " ";
+	    if(i != j){
+	        if(abs(delta) < scal(y[i], y[j], h)){
+	            delta = scal(y[i],y[j],h);
+		    a = i;
+		    b = j;
+	        }
+	    }
+	    //delta = scal(y[i], x[i], h);
+	    //if(delta ) 
+            fout1 << fixed << setprecision(10) << scal(y[i],y[j], h) << " ";
         }
-        cout << endl;
+        fout1 << endl;
     }
+    fout1.close();
+    
+    cout << "i=" << a << " j=" << b << " delta=" << delta;    
 
     for(int i = 0; i < N; ++i)
     {

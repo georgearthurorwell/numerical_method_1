@@ -24,7 +24,7 @@ public:
 			delete[] m;
 			length = a.length;
 			m = new long double[length];
-			for (size_t i = 0; i != length; ++i)
+			for (int i = 0; i != length; ++i)
 				m[i] = a.m[i];
 		}
 		return *this;
@@ -54,16 +54,16 @@ public:
         }
 	}
 
-	int nulls()
-	{
-		int amount = 0;
-		for (int i = 0; i < this->length - 1; ++i)
-		{
-			if (this->m[i] == 0)
-				++amount;
-		}
-		return amount;
-	}
+	//int nulls()
+	//{
+	//	int amount = 0;
+	//	for (int i = 0; i < this->length - 1; ++i)
+	//	{
+	//		if (this->m[i] == 0)
+	//			++amount;
+	//	}
+	//	return amount;
+	//}
 	int length;
 	long double * m;
 };
@@ -81,6 +81,7 @@ myvector operator+(myvector a, myvector b)
 	else
 	{
 		cout << "error";
+		return a;
 	}
 }
 
@@ -95,6 +96,7 @@ myvector operator+=(myvector a, myvector b)
 	else
 	{
 		cout << "error";
+		return a;
 	}
 }
 
