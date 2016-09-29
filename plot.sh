@@ -12,7 +12,7 @@ set ylabel "Y"
 set y2tics
 set xrange [0:1]
 
-plot sin(pi*x) title "F=" with lines, \
+plot cos(2*pi*x)-1 title "F=" with lines, \
      datafile using 1:2 title "F'" with lines
 
 EOP

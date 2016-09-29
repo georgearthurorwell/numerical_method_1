@@ -55,7 +55,7 @@ int main()
     for(int i = 0; i < N; ++i)
     {
         //coords[i] = cos(2*M_PI*i*h) - 1; // DEFINE f
-        coords[i] = sin(M_PI*i*h);
+        coords[i] = cos(2*M_PI*i*h) - 1;
     }
     f = myvector(N, coords);
 
@@ -71,7 +71,7 @@ int main()
     long double d[N];
     for(int i = 0; i < N; ++i)
     {
-        d[i] = scal(f,y[i]);
+        d[i] = scal(f,y[i],h);
         cout << d[i] << ' ';
     }
 
