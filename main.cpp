@@ -30,7 +30,7 @@ long double scal(myvector a, myvector b, long double h)
 int main()
 {
     // DEFINE N, h, y_n, f
-    int N = 101;
+    int N = 1001;
     //long double l = 1.0000000000000000;
     long double h = 1.0 / (N - 1);
 
@@ -100,19 +100,49 @@ int main()
     
     cout << "i=" << a << " j=" << b << " delta=" << delta;    
 
+    int M = 2 * N - 1;
+
+    h = 1.0 / (M-1);
+
+    myvector * y_m = new myvector[N];
+    long double *coords_m = new long double[M];
     for(int i = 0; i < N; ++i)
     {
-        coords[i] = 0;
-    }
-    myvector f_1 = myvector(N, coords);
-    for(int i = 0; i < N; ++i)
-    {
-        y[i] = d[i] * y[i];
-        f_1 += y[i];
+        for(int j = 0; j < M; ++j)
+        {
+            coords_m[j] = c[0]*sin(M_PI*i*j*h); // DEFINE y_i
+        }
+        y_m[i] = myvector(M, coords_m);
     }
 
-    ofstream fout("output.txt");
+    myvector f_m = myvector();
+    for(int i = 0; i < M; ++i)
+    {
+        //coords[i] = cos(2*M_PI*i*h) - 1; // DEFINE f
+        coords_m[i] = cos(2*M_PI*i*h) - 1;
+    }
+    f_m = myvector(M, coords_m);
+
+    for(int i = 0; i < M; ++i)
+    {
+        coords_m[i] = 0;
+    }
+
+    myvector f_1 = myvector(M, coords_m);
     for(int i = 0; i < N; ++i)
+    {
+        y_m[i] = d[i] * y_m[i];
+        f_1 += y_m[i];
+    }
+
+    cout << "diff=" << scal(f_1-f_m,f_1-f_m, h);
+
+    cout << "diff=" << scal(f_1-f_m,f_1-f_m);
+
+    cout << "diff=" << max(f_1-f_m);
+
+    ofstream fout("output.txt");
+    for(int i = 0; i < M; ++i)
     {
         fout << h*i << ' ' << f_1.m[i] << endl;
     }

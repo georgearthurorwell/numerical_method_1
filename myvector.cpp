@@ -80,7 +80,24 @@ myvector operator+(myvector a, myvector b)
 	}
 	else
 	{
-		cout << "error";
+		cout << "error in +";
+		return a;
+	}
+}
+
+myvector operator-(myvector a, myvector b)
+{
+	if (a.length == b.length)
+	{
+		long double *m = new long double[a.length];
+		myvector c(a.length, m);
+		for (int i = 0; i < a.length; ++i)
+			c.m[i] = a.m[i] - b.m[i];
+		return c;
+	}
+	else
+	{
+		cout << "error in -";
 		return a;
 	}
 }
@@ -95,7 +112,7 @@ myvector operator+=(myvector a, myvector b)
 	}
 	else
 	{
-		cout << "error";
+		cout << "error in += ";
 		return a;
 	}
 }
