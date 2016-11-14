@@ -68,6 +68,14 @@ public:
 	long double * m;
 };
 
+myvector operator+(myvector, myvector );
+myvector operator+=(myvector , myvector );
+myvector operator*(long double , myvector );
+long double scal(myvector, myvector);
+long double max(myvector);
+int maxcoordinate(myvector);
+//void swap(myvector &, myvector &);
+
 myvector operator+(myvector a, myvector b)
 {
 	if (a.length == b.length)
@@ -80,24 +88,7 @@ myvector operator+(myvector a, myvector b)
 	}
 	else
 	{
-		cout << "error in +";
-		return a;
-	}
-}
-
-myvector operator-(myvector a, myvector b)
-{
-	if (a.length == b.length)
-	{
-		long double *m = new long double[a.length];
-		myvector c(a.length, m);
-		for (int i = 0; i < a.length; ++i)
-			c.m[i] = a.m[i] - b.m[i];
-		return c;
-	}
-	else
-	{
-		cout << "error in -";
+		cout << "error";
 		return a;
 	}
 }
@@ -112,7 +103,7 @@ myvector operator+=(myvector a, myvector b)
 	}
 	else
 	{
-		cout << "error in += ";
+		cout << "error";
 		return a;
 	}
 }
